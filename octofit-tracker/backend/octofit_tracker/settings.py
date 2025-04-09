@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from pymongo import MongoClient
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     "tracker",  # Adicionando o aplicativo tracker
     'corsheaders',
 ]
+
+INSTALLED_APPS += ['octofit_tracker']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -75,10 +78,11 @@ WSGI_APPLICATION = "octofit_tracker.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Configuração do banco de dados usando djongo
 DATABASES = {
-    "default": {
-        "ENGINE": "djongo",
-        "NAME": "octofit_db",
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'octofit_db',
     }
 }
 

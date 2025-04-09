@@ -2,13 +2,21 @@ from django.test import TestCase
 from .models import User, Team, Activity, Leaderboard, Workout
 
 class UserModelTest(TestCase):
+    def setUp(self):
+        User.objects.create(email="test@example.com", name="Test User", age=25)
+
     def test_user_creation(self):
-        user = User.objects.create(email="test@example.com", name="Test User", password="password123")
-        self.assertEqual(user.email, "test@example.com")
+        user = User.objects.get(email="test@example.com")
+        self.assertEqual(user.name, "Test User")
 
 class TeamModelTest(TestCase):
-    def test_team_creation(self):
-        team = Team.objects.create(name="Team A", members=["user1", "user2"])
-        self.assertEqual(team.name, "Team A")
+    def setUp(self):
+        user = User.objects.create(email="team@example.com", name="Team User", age=30)
+        team = Team.objects.create(name="Test Team")
+        team.members.add(user)
 
-# Additional tests for Activity, Leaderboard, and Workout can be added similarly.
+    def test_team_creation(self):
+        team = Team.objects.get(name="Test Team")
+        self.assertEqual(team.members.count(), 1)
+
+# Similar tests can be added for Activity, Leaderboard, and Workout models
